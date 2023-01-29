@@ -3,9 +3,9 @@
     "lib": [
       "ESNext"
     ],
-    "module": "esnext",
-    "target": "esnext",
-    "moduleResolution": "nodenext",
+    "module": "commonjs",
+    "target": "ESNext",
+    "moduleResolution": "node",
     "strict": true,
     "downlevelIteration": true,
     "skipLibCheck": true,

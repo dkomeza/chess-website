@@ -1,9 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import reactLogo from "./assets/react.svg";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const websocket = new WebSocket("wss://dev.dawidkomeza.pl/api/ping");
+  const [count, setCount] = useState(0);
+  websocket.onmessage = (event) => {
+    setCount(event.data);
+  };
+
+  useEffect(() => {
+    fetch("/api/status")
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }, []);
+
+  function changeCount() {
+    if (websocket.readyState === 1) {
+      websocket.send("Increment");
+    }
+  }
 
   return (
     <div className="App">
@@ -17,9 +33,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <button onClick={changeCount}>count is {count}</button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
@@ -28,7 +42,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,13 +1,27 @@
-import express from "express";
+import { Bao } from "baojs";
 
-const app = express();
+import ChessEngine from "./api/ChessEngine/ChessEngine";
 
-app.get("/", (req, res) => {
-  console.log("Request");
-  res.send("Hello World!");
+const app = new Bao();
+
+let counter = 0;
+
+app.get("/status", (ctx) => {
+  const chessEngine = new ChessEngine();
+  return ctx.sendPrettyJson({
+    status: "ok",
+    engineStatus: chessEngine.getStatus(),
+  });
 });
 
-app.listen(5000, () => {
-  console.log("Server started on port 5000");
+app.ws("/ping", {
+  open: (ws) => {
+    ws.send(counter.toString());
+  },
+  message: (ws, message) => {
+    counter++;
+    ws.send(counter.toString());
+  },
 });
 
+app.listen({ port: 5000 });
