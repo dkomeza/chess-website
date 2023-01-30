@@ -1,27 +1,28 @@
-import { Bao } from "baojs";
+import express from "express";
+import http from "http";
+import { Server } from "socket.io";
 
-import ChessEngine from "./api/ChessEngine/ChessEngine";
-
-const app = new Bao();
-
-let counter = 0;
-
-app.get("/status", (ctx) => {
-  const chessEngine = new ChessEngine();
-  return ctx.sendPrettyJson({
-    status: "ok",
-    engineStatus: chessEngine.getStatus(),
-  });
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  path: "/api",
 });
 
-app.ws("/ping", {
-  open: (ws) => {
-    ws.send(counter.toString());
-  },
-  message: (ws, message) => {
-    counter++;
-    ws.send(counter.toString());
-  },
+app.get("/api/status", (req, res) => {
+  res.send({ status: "ok" });
 });
 
-app.listen({ port: 5000 });
+io.on("connection", (socket) => {
+  setInterval(() => {
+    socket.emit("message", `Hello ${socket.client}`);
+  }, 1000);
+  console.log("a user connected");
+});
+
+setInterval(() => {
+  io.emit("message", "Hello everyone");
+}, 1000);
+
+server.listen(5000, () => {
+  console.log("listening on *:5000");
+});

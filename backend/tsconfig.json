@@ -1,20 +1,10 @@
 {
   "compilerOptions": {
-    "lib": [
-      "ESNext"
-    ],
-    "module": "commonjs",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "target": "ESNext",
-    "moduleResolution": "node",
-    "strict": true,
-    "downlevelIteration": true,
-    "skipLibCheck": true,
-    "jsx": "preserve",
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowJs": true,
-    "types": [
-      "bun-types" // add Bun global
-    ]
-  }
+    "sourceMap": true,
+    "outDir": "dist",
+  },
+  "include": ["src/**/*"],
 }
