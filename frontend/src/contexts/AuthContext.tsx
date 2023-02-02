@@ -8,7 +8,7 @@ interface User {
 }
 
 interface AuthContextInterface {
-  user: User | undefined;
+  currentUser: User | undefined;
 }
 
 export const AuthContext = React.createContext<AuthContextInterface | null>(
@@ -29,6 +29,16 @@ export function AuthProvider({ children }: any) {
     setCurrentUser({ name, email, token, verified });
     setLoading(false);
   }, []);
+
+  const value = {
+    currentUser,
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 }
 
 export default AuthContext;
