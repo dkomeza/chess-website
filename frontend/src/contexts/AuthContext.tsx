@@ -11,8 +11,8 @@ interface AuthContextInterface {
   currentUser: User | undefined;
 }
 
-export const AuthContext = React.createContext<AuthContextInterface | null>(
-  null
+export const AuthContext = React.createContext<AuthContextInterface>(
+  {} as AuthContextInterface
 );
 
 export const useAuth = () => {
