@@ -1,5 +1,11 @@
+import { AuthProvider } from "./contexts/AuthContext";
+
 function App() {
-  return <div className="App">Chess-website</div>;
+  return (
+    <AuthProvider>
+      <div className="App">Chess-website</div>
+    </AuthProvider>
+  );
 }
 
 export default App;

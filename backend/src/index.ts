@@ -26,6 +26,28 @@ app.get("/api/status", (_req, res) => {
   res.send({ status: "ok" });
 });
 
+app.post("/api/auth", async (req, res) => {
+  try {
+    const { name, email, token, verified } = req.body;
+    if (!(name && email && token)) {
+      return res.status(400).send({ error: "Missing fields" });
+    }
+    try {
+      jwt.verify(token, process.env.TOKEN_KEY);
+      res.status(200).send({
+        name,
+        email,
+        token,
+        verified,
+      });
+    } catch (ex) {
+      throw new Error("Invalid token");
+    }
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
+
 app.post("/api/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
