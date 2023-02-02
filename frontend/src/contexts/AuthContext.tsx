@@ -19,14 +19,18 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-export function AuthProvider({ children }: any) {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const getUserFromLocalStorage = () => {
     const user = localStorage.getItem("user");
     const { name, email, token, verified } = JSON.parse(user || "{}");
     setCurrentUser({ name, email, token, verified });
+  };
+
+  useEffect(() => {
+    getUserFromLocalStorage();
     setLoading(false);
   }, []);
 
