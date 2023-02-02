@@ -1,6 +1,6 @@
 GET https://dev.dawidkomeza.pl/api/
 Host: dev.dawidkomeza.pl
-x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjNkYWNhMDlhYjI4ZWViOGQyNGNkM2RiIiwiZW1haWwiOiJkYXdpZC5rb21lemFAZ21haWwuY29tIiwiaWF0IjoxNjc1MjgzNDAwLCJleHAiOjE2NzUyOTA2MDB9.SP45gXA2-pcedp1rlMeATVX0eEO6FL1whFItTXa_-dE
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjNkYWNhMDlhYjI4ZWViOGQyNGNkM2RiIiwiZW1haWwiOiJkYXdpZC5rb21lemFAZ21haWwuY29tIiwiaWF0IjoxNjc1MzM5OTAxLCJleHAiOjE2NzUzNDcxMDF9.dHVMGGiqNqzPEbJRS-FvsPaFkURXrE-fDCP3jlDRmxk
 
 ######
 

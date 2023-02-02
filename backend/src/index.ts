@@ -14,15 +14,15 @@ const app = express();
 app.use(express.json());
 
 const server = http.createServer(app);
-// const io = new Server(server, {
-//   path: "/api",
-// });
+const io = new Server(server, {
+  path: "/api/socket",
+});
 
-app.get("/api/", auth, (req, res) => {
+app.get("/api/", auth, (_req, res) => {
   res.send("Hello World!");
-})
+});
 
-app.get("/api/status", (req, res) => {
+app.get("/api/status", (_req, res) => {
   res.send({ status: "ok" });
 });
 
@@ -111,10 +111,10 @@ app.post("/api/deleteUser", async (req, res) => {
   }
 });
 
-// io.on("connection", (socket) => {
-//   console.log(socket);
-//   console.log("a user connected");
-// });
+io.on("connection", (socket) => {
+  console.log(socket);
+  console.log("a user connected");
+});
 
 server.listen(5000, () => {
   console.log("listening on *:5000");
