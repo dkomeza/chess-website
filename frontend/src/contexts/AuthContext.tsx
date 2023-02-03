@@ -40,6 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   async function auth(user: User) {
+    console.log(user);
     const res = await fetch("/api/auth", {
       method: "POST",
       headers: {
@@ -48,13 +49,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       body: JSON.stringify(user),
     });
     if (!res.ok) {
+      localStorage.removeItem("user");
       return;
     }
     const data = await res.json();
-    if (data.error) {
-      console.log(data.error);
-      return;
-    }
     localStorage.setItem("user", JSON.stringify(data));
     setCurrentUser(data);
   }
