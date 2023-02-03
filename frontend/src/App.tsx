@@ -1,9 +1,11 @@
 import { AuthProvider } from "./contexts/AuthContext";
 
+import MainRouter from "./routers/MainRouter";
+
 function App() {
   return (
     <AuthProvider>
-      <div className="App">Chess-website</div>
+      <MainRouter />
     </AuthProvider>
   );
 }
