@@ -9,6 +9,7 @@ interface User {
 
 interface AuthContextInterface {
   currentUser: User | undefined;
+  signup: (name: string, email: string, password: string) => Promise<void>;
 }
 
 const AuthContext = React.createContext<AuthContextInterface>(
@@ -35,10 +36,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const value = {
     currentUser,
+    signup,
   };
 
   async function auth(user: User) {
-    console.log(user);
     const res = await fetch("/api/auth", {
       method: "POST",
       headers: {
@@ -56,6 +57,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     localStorage.setItem("user", JSON.stringify(data));
     setCurrentUser(data);
+  }
+
+  async function signup(name: string, email: string, password: string) {
+    const res = await fetch("/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    });
+    if (!res.ok) {
+      return;
+    }
+    const data = await res.json();
+    if (data.error) {
+      console.log(data.error);
+      return;
+    }
+    const user = { name, email, token: data.token, verified: data.verified };
+    await auth(user);
   }
 
   return (
