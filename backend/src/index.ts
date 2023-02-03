@@ -32,6 +32,10 @@ app.post("/api/auth", async (req, res) => {
     if (!(name && email && token)) {
       return res.status(400).send({ error: "Missing fields" });
     }
+    console.log();
+    if (!(await User.findOne({ email }))) {
+      return res.status(400).send({ error: "User not found" });
+    }
     try {
       jwt.verify(token, process.env.TOKEN_KEY);
       res.status(200).send({
@@ -125,7 +129,12 @@ app.post("/api/deleteUser", async (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        console.log("Deleted User : ", docs);
+        if (docs) {
+          res.status(200).send("User deleted");
+        } else {
+          res.status(404).send("User not found");
+        }
+        return;
       }
     });
   } catch (error) {
