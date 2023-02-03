@@ -24,15 +24,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const user = getUserFromLocalStorage();
-    if (user) {
-      try {
-        auth(user);
-      } catch (error) {
-        console.log(error);
+    async function loadUser() {
+      const user = getUserFromLocalStorage();
+      if (user && user.token) {
+        await auth(user);
       }
     }
-    setLoading(false);
+    loadUser().then(() => setLoading(false));
   }, []);
 
   const value = {
@@ -40,6 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   async function auth(user: User) {
+    console.log(user);
     const res = await fetch("/api/auth", {
       method: "POST",
       headers: {
@@ -47,9 +46,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       },
       body: JSON.stringify(user),
     });
+    if (!res.ok) {
+      return;
+    }
     const data = await res.json();
     if (data.error) {
-      throw new Error(data.error);
+      console.log(data.error);
+      return;
     }
     localStorage.setItem("user", JSON.stringify(data));
     setCurrentUser(data);

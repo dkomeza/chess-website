@@ -9,6 +9,6 @@ export default function auth(req, res, next) {
     req.user = decoded;
     return next();
   } catch (ex) {
-    res.status(400).send("Invalid token.");
+    res.status(401).send("Invalid token.");
   }
 }

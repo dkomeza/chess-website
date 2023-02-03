@@ -15,9 +15,9 @@ function MainRouter() {
         <Route
           path="*"
           element={
-            // <PrivateRoute>
-            <InnerRouter />
-            // </PrivateRoute>
+            <PrivateRoute>
+              <InnerRouter />
+            </PrivateRoute>
           }
         />
         <Route path="/signup" element={<Signup />} />
