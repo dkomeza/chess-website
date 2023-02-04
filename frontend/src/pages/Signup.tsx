@@ -1,12 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const { currentUser, signup } = useAuth();
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  }, [currentUser]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -16,6 +25,7 @@ function Signup() {
         emailRef.current!.value,
         passwordRef.current!.value
       );
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
