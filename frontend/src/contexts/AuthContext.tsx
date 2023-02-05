@@ -37,6 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const value = {
     currentUser,
     signup,
+    signin,
   };
 
   async function auth(user: User) {
@@ -74,6 +75,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
     const user = { name, email, token: data.token, verified: data.verified };
+    await auth(user);
+  }
+
+  async function signin(email: string, password: string) {
+    const res = await fetch("/api/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    if (!res.ok) {
+      return;
+    }
+    const data = await res.json();
+    if (data.error) {
+      console.log(data.error);
+      return;
+    }
+    const user = {
+      name: data.name,
+      email,
+      token: data.token,
+      verified: data.verified,
+    };
     await auth(user);
   }
 
