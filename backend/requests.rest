@@ -32,7 +32,7 @@ Host: dev.dawidkomeza.pl
 Content-Type: application/json
 
 {
-    "email": "dawid.komeza@gmail.com"
+    "email": "super@super"
 }
 
 ######
